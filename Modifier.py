@@ -53,17 +53,20 @@ if (os.path.exists(caminho) != False):
             #Let the user choose which files he wants to modify
             choices = input('Insert the number of the target (if more than 1, use spaces between the numbers): \n')
 
-            #Stores the targets into a Array
-            point = choices.split()
-            
-            #Print the target names
-            for x in point:
-                arrayPosition = int(point[next])
-                next += 1
-                print(files[arrayPosition-1])
+            #Handles letter between choices error
+            try:
+                #Stores the targets into a Array
+                point = choices.split()
+                
+                #Print the target names
+                for x in point:
+                    arrayPosition = int(point[next])
+                    next += 1
+                    print(files[arrayPosition-1])
+            except:
+                print('Use only numbers')
 
 
-    
 #If not
 else: 
     print('Could not locate it\n')
