@@ -23,6 +23,13 @@ def countFiles(caminho):
     #Returns the output
     return ('Your dir has: {0} files'.format(filecount))
 
+def modifyExtension(target, caminho):
+    splitedTargetNameAndExtension = os.path.splitext(caminho)
+    name = splitedTargetNameAndExtension[0]
+    
+        
+
+
 #Checks if it exists
 #If exists
 if (os.path.exists(caminho) != False): 
@@ -31,7 +38,7 @@ if (os.path.exists(caminho) != False):
     #Checks if it is a Dir or a File
     #If File
     if(os.path.isfile(caminho)):
-        print(os.path.splitext(caminho))
+        modifyExtension(caminho,caminho)
 
     #If Dir
     else:
@@ -50,7 +57,8 @@ if (os.path.exists(caminho) != False):
                     files.append(os.listdir(caminho)[next])
                     next += 1
             next = 0
-
+            
+            #Prints on screen the number os files
             print(countFiles(caminho))
 
             #lists files 
@@ -72,16 +80,19 @@ if (os.path.exists(caminho) != False):
                 for x in splitedChoices:
                     if (':' in splitedChoices[next]):
                         splitedChoicesThrougthOPT = splitedChoices[next].split(':')
+                        splitedChoicesThrougthOPTConverted = [int(i) for i in splitedChoicesThrougthOPT]
                         splitedChoices.remove(splitedChoices[next])
-                        firstFileValue = int(min(splitedChoicesThrougthOPT))
-                        secondFileValue = int(max(splitedChoicesThrougthOPT))
+                        firstFileValue = min(splitedChoicesThrougthOPTConverted)
+                        secondFileValue = max(splitedChoicesThrougthOPTConverted)
                         counter = 0 
                         counterRange = (secondFileValue - firstFileValue)
                         splitedChoices.append(str(secondFileValue))
-                        while (counter != counterRange):
+                        print(counterRange, secondFileValue, firstFileValue, splitedChoicesThrougthOPT)
+                        while (counter < counterRange):
                             splitedChoices.append(str(firstFileValue))
                             firstFileValue += 1
                             counter += 1
+                            print(counter, counterRange)
                     next += 1
                 next = 0
 
@@ -98,9 +109,11 @@ if (os.path.exists(caminho) != False):
                     next += 1
                     print(files[arrayPosition-1])
                     targetFiles.append(files[arrayPosition-1])
+                   
             #Case an error occours
             except:
                 print('Use only numbers')
+    
          
 #If not
 else: 
