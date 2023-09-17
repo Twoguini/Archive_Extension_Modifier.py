@@ -3,6 +3,7 @@ import os
 choices = []
 next = 0
 files = []
+targetFiles = []
 
 #Asks for the File Path
 caminho = os.path.normpath(input('Insert the path of the target: \n'))
@@ -36,11 +37,14 @@ if (os.path.exists(caminho) != False):
             print('Thats a empty dir')
             
         else:
-            #Stores the list of files into a var
-            for x in os.listdir(caminho):
-                files.append(os.listdir(caminho)[next])
-                next += 1
-            next = 0 
+            #Stores the names of those files into a var
+            scanner = os.scandir(caminho)
+            for entry in scanner:
+                if (entry.is_dir()):next += 1
+                else:
+                    files.append(os.listdir(caminho)[next])
+                    next += 1
+            next = 0
 
             print(countFiles(caminho))
 
@@ -63,10 +67,10 @@ if (os.path.exists(caminho) != False):
                     arrayPosition = int(point[next])
                     next += 1
                     print(files[arrayPosition-1])
+                    targetFiles.append(files[arrayPosition-1])
             except:
                 print('Use only numbers')
-
-
+         
 #If not
 else: 
     print('Could not locate it\n')
