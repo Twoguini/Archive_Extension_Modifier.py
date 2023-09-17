@@ -19,6 +19,7 @@ def countFiles(caminho):
     #Returns the output
     return ('Your dir has: {0} files'.format(filecount))
 
+#checks
 
 #Checks if it exists
 #If exists
