@@ -1,6 +1,13 @@
 import os
 import re
 
+#SECTION: Priority List:
+#NOTE: 1° - Test Routine
+#NOTE: 2° - Finish Functionality
+#NOTE: 3° - Turn Code Into Funcions
+#NOTE: 4° - State Variables
+#!SECTION
+
 #TODO: State all used global variables 
 choosed_Files: str = []
 loop_Controller: int = 0
@@ -24,6 +31,7 @@ def counting_Files(path: str) -> int:
     # Returns the output
     return ('Your dir has: {0} files'.format(number_of_Files))
 
+#TODO: Finish main functionality
 def modify_Extension(target, path):
     ''' Main objective! Changes the file extension by changing its after "." charactres '''
     splitedTargetNameAndExtension = os.path.splitext(path)
@@ -38,7 +46,7 @@ if (os.path.exists(directory_Path) != False):
     # Checks if it is a Dir or a File
     # If File
     if(os.path.isfile(directory_Path)):
-        modifyExtension(directory_Path,directory_Path)
+        modify_Extension(directory_Path,directory_Path)
 
     # If Dir
     else:
