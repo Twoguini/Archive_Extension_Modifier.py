@@ -1,120 +1,124 @@
 import os
 import re
 
-choices = []
-next = 0
-files = []
-targetFiles = []
+#TODO: State all used global variables 
+choosed_Files: str = []
+loop_Controller: int = 0
+file_Names: list = []
+target_Files: list = []
 
-#Asks for the File Path
-caminho = os.path.normpath(input('Insert the path of the target: \n'))
+# Asks for the File Path
+directory_Path: str = os.path.normpath(input('Insert the path of the target: \n'))
 
-#Counts how many files there are into the dir
-def countFiles(caminho):
-    filecount = 0
+def counting_Files(path: str) -> int:
+    ''' Returns a Int with the count of how many files there are into the directory '''
+    number_of_Files: int = 0
     
-    #Runs for every file in the dir
-    for path in os.listdir(caminho):
+    # Runs for every file in the dir
+    for path in os.listdir(path):
         
-        #Checks if it is a file or a subdir and, if it is a file, counts it
-        if (os.path.isfile(os.path.join(caminho, path))):
-            filecount += 1
+        # Checks if it is a file or a subdir and, if it is a file, counts it
+        if (os.path.isfile(os.path.join(path, path))):
+            number_of_Files += 1
     
-    #Returns the output
-    return ('Your dir has: {0} files'.format(filecount))
+    # Returns the output
+    return ('Your dir has: {0} files'.format(number_of_Files))
 
-def modifyExtension(target, caminho):
-    splitedTargetNameAndExtension = os.path.splitext(caminho)
+def modify_Extension(target, path):
+    ''' Main objective! Changes the file extension by changing its after "." charactres '''
+    splitedTargetNameAndExtension = os.path.splitext(path)
     name = splitedTargetNameAndExtension[0]
     
-        
 
+# Checks if it exists
+# If exists
+if (os.path.exists(directory_Path) != False): 
+    print(directory_Path)
 
-#Checks if it exists
-#If exists
-if (os.path.exists(caminho) != False): 
-    print(caminho)
+    # Checks if it is a Dir or a File
+    # If File
+    if(os.path.isfile(directory_Path)):
+        modifyExtension(directory_Path,directory_Path)
 
-    #Checks if it is a Dir or a File
-    #If File
-    if(os.path.isfile(caminho)):
-        modifyExtension(caminho,caminho)
-
-    #If Dir
+    # If Dir
     else:
         
-        #Checks if the given dir is empty or not
-        if(os.path.getsize(caminho) == 0):
+        # Checks if the given dir is empty or not
+        if(os.path.getsize(directory_Path) == 0):
             print('Thats a empty dir')
             
         else:
             
-            #Stores the names of those files into a var, only if it is a file.
-            scanner = os.scandir(caminho)
-            for entry in scanner:
-                if (entry.is_dir()):next += 1
+            # Stores the names of those files into a var, only if it is a file.
+            all_Files_Names = os.scandir(directory_Path)
+            for i in all_Files_Names:
+                if (i.is_dir()):loop_Controller += 1
                 else:
-                    files.append(os.listdir(caminho)[next])
-                    next += 1
-            next = 0
+                    file_Names.append(os.listdir(directory_Path)[loop_Controller])
+                    loop_Controller += 1
+            loop_Controller = 0
             
-            #Prints on screen the number os files
-            print(countFiles(caminho))
+            # Prints on screen the number os files
+            print(counting_Files(directory_Path))
 
-            #lists files 
-            for x in files:
-                print('*{0} - {1}'.format(next+1, files[next]))
-                next += 1
-            next = 0
+            # lists files 
+            for i in file_Names:
+                print('*{0} - {1}'.format(loop_Controller+1, file_Names[loop_Controller]))
+                loop_Controller += 1
+            loop_Controller = 0
 
-            #Let the user choose which files he wants to modify
-            choices = input('Insert the number of the target: \n(Use : between 2 numbers to indicate a range) \n')
+            # Let the user choose which files he wants to modify
+            choosed_Files = input('Insert the number of the target: \n(Use : between 2 numbers to indicate a range) \n')
 
-            #Handles letter between choices error
+            # Handles letter between choices error
             try:
                 
-                #Stores the separated targets into a Array, excluding duplicates
-                splitedChoices = list(set(re.split(' |,|-', choices)))
+                # Stores the separated targets into a Array, excluding duplicates
+                raw_Splitted_Choices = list(set(re.split(' |,|-', choosed_Files)))
 
-                #Identify if there is a : between numbers, if true, target files in range
-                for x in splitedChoices:
-                    if (':' in splitedChoices[next]):
-                        splitedChoicesThrougthOPT = splitedChoices[next].split(':')
-                        splitedChoicesThrougthOPTConverted = [int(i) for i in splitedChoicesThrougthOPT]
-                        splitedChoices.remove(splitedChoices[next])
-                        firstFileValue = min(splitedChoicesThrougthOPTConverted)
-                        secondFileValue = max(splitedChoicesThrougthOPTConverted)
-                        counter = 0 
-                        counterRange = (secondFileValue - firstFileValue)
-                        splitedChoices.append(str(secondFileValue))
-                        print(counterRange, secondFileValue, firstFileValue, splitedChoicesThrougthOPT)
-                        while (counter < counterRange):
-                            splitedChoices.append(str(firstFileValue))
-                            firstFileValue += 1
-                            counter += 1
-                            print(counter, counterRange)
-                    next += 1
-                next = 0
+                #TODO: Turn massive chunks of code, like this one, into as many functions as possible.
 
-                #Deletes blank cases
-                for x in splitedChoices:
-                    if (splitedChoices[next] == ''):
-                        splitedChoices.remove(splitedChoices[next])
-                        next +=1
-                next = 0
+                # Identify if there is a : between numbers, if true, target files in range
+                for i in raw_Splitted_Choices:
+                    if (':' in raw_Splitted_Choices[loop_Controller]):
+                        raw_Splited_Range_OPT = raw_Splitted_Choices[loop_Controller].split(':')
+                        splited_Range_OPT_as_Int = [int(i) for i in raw_Splited_Range_OPT]
+                        raw_Splitted_Choices.remove(raw_Splitted_Choices[loop_Controller])
+                        first_File_in_Range = min(splited_Range_OPT_as_Int)
+                        last_File_in_Range = max(splited_Range_OPT_as_Int)
+                        second_Loop_Controller = 0 
+                        file_Range = (last_File_in_Range - first_File_in_Range)
+                        raw_Splitted_Choices.append(str(last_File_in_Range))
+                        print(file_Range, last_File_in_Range, first_File_in_Range, raw_Splited_Range_OPT)
+                        while (second_Loop_Controller < file_Range):
+                            raw_Splitted_Choices.append(str(first_File_in_Range))
+                            first_File_in_Range += 1
+                            second_Loop_Controller += 1
+                            print(second_Loop_Controller, file_Range)
+                    loop_Controller += 1
+                loop_Controller = 0
 
-                #Print the target names
-                for x in splitedChoices:
-                    arrayPosition = int(splitedChoices[next])
-                    next += 1
-                    print(files[arrayPosition-1])
-                    targetFiles.append(files[arrayPosition-1])
+                # Deletes blank cases
+                for i in raw_Splitted_Choices:
+                    if (raw_Splitted_Choices[loop_Controller] == ''):
+                        raw_Splitted_Choices.remove(raw_Splitted_Choices[loop_Controller])
+                        loop_Controller +=1
+                loop_Controller = 0
+
+                # Print the target names
+                for i in raw_Splitted_Choices:
+                    list_Value_Indexer = int(raw_Splitted_Choices[loop_Controller])
+                    loop_Controller += 1
+                    print(file_Names[list_Value_Indexer-1])
+                    target_Files.append(file_Names[list_Value_Indexer-1])
                    
-            #Case an error occours
+            # Case an error occours
             except:
                 print('Use only numbers')
     
          
-#If not
+# If not
 else: 
     print('Could not locate it\n')
+
+# TODO: Create testing routines
