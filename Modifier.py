@@ -2,9 +2,9 @@ import os
 import re
 
 #SECTION: Priority List:
-#NOTE: 1° - Test Routine
-#NOTE: 2° - Finish Functionality
-#NOTE: 3° - Turn Code Into Funcions
+#NOTE: 1° - Finish Functionality
+#NOTE: 2° - Turn Code Into Funcions
+#NOTE: 3° - Test Routine
 #NOTE: 4° - State Variables
 #!SECTION
 
@@ -17,27 +17,27 @@ target_Files: list = []
 # Asks for the File Path
 directory_Path: str = os.path.normpath(input('Insert the path of the target: \n'))
 
-def counting_Files(path: str) -> int:
+def counting_Files(directory_Path: str) -> int:
     ''' Returns a Int with the count of how many files there are into the directory '''
     number_of_Files: int = 0
     
     # Runs for every file in the dir
-    for path in os.listdir(path):
+    for path in os.listdir(directory_Path):
         
         # Checks if it is a file or a subdir and, if it is a file, counts it
-        if (os.path.isfile(os.path.join(path, path))):
+        if (os.path.isfile(os.path.join(directory_Path, path))):
             number_of_Files += 1
     
     # Returns the output
     return ('Your dir has: {0} files'.format(number_of_Files))
 
 #TODO: Finish main functionality
-def modify_Extension(target, path):
+def modify_Extension(target, directory_Path):
     ''' Main objective! Changes the file extension by changing its after "." charactres '''
-    splitedTargetNameAndExtension = os.path.splitext(path)
+    splitedTargetNameAndExtension = os.path.splitext(directory_Path)
     name = splitedTargetNameAndExtension[0]
     
-
+ 
 # Checks if it exists
 # If exists
 if (os.path.exists(directory_Path) != False): 
@@ -94,7 +94,7 @@ if (os.path.exists(directory_Path) != False):
                         raw_Splitted_Choices.remove(raw_Splitted_Choices[loop_Controller])
                         first_File_in_Range = min(splited_Range_OPT_as_Int)
                         last_File_in_Range = max(splited_Range_OPT_as_Int)
-                        second_Loop_Controller = 0 
+                        second_Loop_Controller = 0
                         file_Range = (last_File_in_Range - first_File_in_Range)
                         raw_Splitted_Choices.append(str(last_File_in_Range))
                         print(file_Range, last_File_in_Range, first_File_in_Range, raw_Splited_Range_OPT)
@@ -129,4 +129,4 @@ if (os.path.exists(directory_Path) != False):
 else: 
     print('Could not locate it\n')
 
-# TODO: Create testing routines
+# TODO: Create test routines
