@@ -91,12 +91,20 @@ def storing_Choices(raw_Splitted_Choices, loop_Controller) -> list:
 #TODO: Finish main functionality
 def modify_Extension(target, loop_Controller):
     ''' Main objective! Changes the file extension by changing its after "." charactres '''
+    name: str = ''
     for i in target:
                 single_Target = target[loop_Controller]
                 loop_Controller += 1
-    splited_Target_Name_And_Extension = single_Target.split('.')
-    Extension = splited_Target_Name_And_Extension[len(splited_Target_Name_And_Extension)-1]
-    print (Extension)
+    loop_Controller = 0
+    splited_Target = single_Target.split('.')
+    while loop_Controller < (len(splited_Target)-1):
+        if (loop_Controller > 0):
+            name += ('.'+splited_Target[loop_Controller])
+        else:
+            name += splited_Target[loop_Controller]
+        loop_Controller += 1
+    extension = splited_Target[len(splited_Target)-1]
+    print (name, extension)
 #!SECTION
 
 #!SECTION
