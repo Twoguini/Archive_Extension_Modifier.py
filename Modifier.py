@@ -109,7 +109,7 @@ def separate_File_Name(target):
 #!SECTION
 
 #SECTION: Main function, to modify the files extension
-def modify_Extension_inDir(target, loop_Controller, path):
+def modify_Extension_inDir(target, path):
     ''' Main objective! Changes the file extension by changing its after "." charactres '''
     file_New_Extention = input("digite a nova extensão: (Use . before it)\n")
     for i in target:
@@ -128,7 +128,7 @@ def modify_Extension_Direct_Path(file_Past_Name):
 #!SECTION
 
 #!SECTION
- 
+
 # Checks if it exists
 # If exists
 if (os.path.exists(directory_Path) != False): 
@@ -168,7 +168,7 @@ if (os.path.exists(directory_Path) != False):
 
                 storing_Choices(raw_Splitted_Choices, loop_Controller = 0)
 
-                modify_Extension_inDir(target_Files, loop_Controller, directory_Path)
+                modify_Extension_inDir(target_Files, directory_Path)
                     
             # Case an error occours
             except:
