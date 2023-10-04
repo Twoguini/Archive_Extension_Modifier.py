@@ -2,10 +2,13 @@ import os
 import re
 
 #SECTION: Priority List:
+#ANCHOR: DONE 
 #NOTE: 1° - Finish Functionality
-#NOTE: 2° - Recomment Code
-#NOTE: 3° - Test Routine
-#NOTE: 4° - State All Variables
+#ANCHOR: DONE
+#NOTE: 2° - Turn Code into Functions
+#NOTE: 3° - Reorgzanize and comment code. State All Variables, their types, comment functions and set their return types
+#NOTE: 4° - Give better looking prints and ui
+#NOTE: 5° - Test Routine
 #!SECTION
 
 #SECTION: Variables
@@ -87,24 +90,41 @@ def storing_Choices(raw_Splitted_Choices, loop_Controller) -> list:
     return(target_Files)
 #!SECTION
 
-#SECTION: Main function, to modify the files extension
-#TODO: Finish main functionality
-def modify_Extension(target, loop_Controller):
-    ''' Main objective! Changes the file extension by changing its after "." charactres '''
-    name: str = ''
-    for i in target:
-                single_Target = target[loop_Controller]
-                loop_Controller += 1
+#SECTION: Function to separate file names from extensions
+def separate_File_Name(target):
     loop_Controller = 0
-    splited_Target = single_Target.split('.')
-    while loop_Controller < (len(splited_Target)-1):
+    name: str = ""
+
+    splited_Target = target.split('.')
+    splited_Max = len(splited_Target) - 1
+
+    while loop_Controller < splited_Max:
         if (loop_Controller > 0):
             name += ('.'+splited_Target[loop_Controller])
         else:
             name += splited_Target[loop_Controller]
         loop_Controller += 1
     extension = splited_Target[len(splited_Target)-1]
-    print (name, extension)
+    return name, extension
+#!SECTION
+
+#SECTION: Main function, to modify the files extension
+def modify_Extension_inDir(target, loop_Controller, path):
+    ''' Main objective! Changes the file extension by changing its after "." charactres '''
+    file_New_Extention = input("digite a nova extensão: (Use . before it)\n")
+    for i in target:
+        file_Past_Name = path + "/" + i
+        file_New_Name = path + "/" + separate_File_Name(i)[0] + file_New_Extention
+        print("File {0} was changed to {1}".format(file_Past_Name, file_New_Name))
+        os.rename(file_Past_Name, file_New_Name)
+#!SECTION
+
+#SECTION: Function to modify extension from file inside the given path
+def modify_Extension_Direct_Path(file_Past_Name):
+    file_New_Extention = input("digite a nova extensão: (Use . before it)\n")
+    file_New_Name = separate_File_Name(file_Past_Name)[0] + file_New_Extention
+    print("File {0} was changed to {1}".format(file_Past_Name, file_New_Name))
+    os.rename(file_Past_Name, file_New_Name)
 #!SECTION
 
 #!SECTION
@@ -117,7 +137,7 @@ if (os.path.exists(directory_Path) != False):
     # Checks if it is a Dir or a File
     # If File
     if(os.path.isfile(directory_Path)):
-        modify_Extension(directory_Path,directory_Path)
+        modify_Extension_Direct_Path(directory_Path)
 
     # If Dir
     else:
@@ -148,7 +168,7 @@ if (os.path.exists(directory_Path) != False):
 
                 storing_Choices(raw_Splitted_Choices, loop_Controller = 0)
 
-                modify_Extension(target_Files, loop_Controller = 0)
+                modify_Extension_inDir(target_Files, loop_Controller, directory_Path)
                     
             # Case an error occours
             except:
